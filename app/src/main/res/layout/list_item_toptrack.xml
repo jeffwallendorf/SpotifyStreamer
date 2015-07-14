@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:layout_height="90dp"
+    android:background="#ffffff"
+    android:layout_weight="1"
+
+    android:id="@+id/list_item_toptrack_view">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_gravity="center"
+        android:cropToPadding="true"
+        android:id="@+id/imageView_list_toptrack"
+        />
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:layout_gravity="center">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+android:maxLines="1"
+        android:id="@+id/textView_list__toptrack_track"
+        android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:layout_below="@id/textView_list__toptrack_track"
+                android:maxLines="1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/textView_list__toptrack_album"
+                android:layout_gravity="center_horizontal" />
+        </RelativeLayout>
+</LinearLayout>
+    </LinearLayout>
