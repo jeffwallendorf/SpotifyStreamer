@@ -33,16 +33,15 @@ public class MainActivityFragment extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        findArtist = new FindArtist(getActivity(), rootView);
 
         final EditText editText = (EditText) rootView.findViewById(R.id.editTextArtistSearch);
 
         if (savedInstanceState == null || !savedInstanceState.containsKey("ArtistParcelable")) {
+            findArtist = new FindArtist(getActivity(), rootView);
 
         }
             else {
             resultList = savedInstanceState.getParcelableArrayList("ArtistParcelable");
-            System.out.println(resultList);
             findArtist.onPostExecute(resultList);}
 
 
@@ -56,6 +55,7 @@ public class MainActivityFragment extends Fragment {
                     findArtist.setContext(v.getContext());
                     findArtist.execute(artistSearchQuery);
                     resultList = findArtist.ArtistsList();
+
                 }
                 return false;
             }
@@ -67,7 +67,6 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
-        System.out.println("LIST: " + resultList);
         savedInstanceState.putParcelableArrayList("ArtistParcelable", resultList);
         super.onSaveInstanceState(savedInstanceState);
 

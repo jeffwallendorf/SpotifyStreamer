@@ -56,7 +56,7 @@ public class FindArtist extends AsyncTask<String, Void, ArrayList<ArtistInList>>
         ArtistsPager results = spotify.searchArtists(artistName);
         artists = results.artists.items;
 
-        resultList = new ArrayList<>();
+        resultList = new ArrayList<ArtistInList>();
 
         for (int i = 0; i < artists.size(); i++) {
             ArtistInList artist;
@@ -92,13 +92,10 @@ public class FindArtist extends AsyncTask<String, Void, ArrayList<ArtistInList>>
                 }
             });
         }
-        System.out.println(results);
       resultList2=results;
     }
 
     public ArrayList<ArtistInList> ArtistsList() {
-        System.out.println("ArtistList called, resultList: "+resultList2);
-
         return resultList2;
     }
 }
