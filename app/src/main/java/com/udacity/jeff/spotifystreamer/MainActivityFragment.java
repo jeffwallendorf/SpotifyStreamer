@@ -50,6 +50,7 @@ public class MainActivityFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String artistSearchQuery = editText.getText().toString();
+                    findArtist = new FindArtist(getActivity(), rootView);
                     findArtist.setContext(v.getContext());
                     findArtist.execute(artistSearchQuery);
 
