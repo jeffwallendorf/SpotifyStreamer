@@ -16,9 +16,7 @@ import java.util.List;
 
 import kaaes.spotify.webapi.android.models.Image;
 
-/**
- * Created by jeffw_000 on 01.07.2015.
- */
+
 public class TopTracksListAdapter extends ArrayAdapter<TopTrack>{
 
     private Context context;

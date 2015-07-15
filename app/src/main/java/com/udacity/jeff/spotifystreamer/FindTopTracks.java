@@ -1,9 +1,11 @@
 package com.udacity.jeff.spotifystreamer;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -31,9 +33,8 @@ public class FindTopTracks extends AsyncTask<String, Void, ArrayList<TopTrack>> 
 
     private Context context;
     private View rootView;
-    private String artistName;
     private ArrayList<TopTrack> resultList;
-    private ArrayList<TopTrack> resultList2;
+    private ProgressDialog progressDialog;
 
     public void setContext(Context context) {
         this.context = context;
@@ -42,31 +43,46 @@ public class FindTopTracks extends AsyncTask<String, Void, ArrayList<TopTrack>> 
     public FindTopTracks(Context context, View rootView) {
         this.context = context;
         this.rootView = rootView;
+        progressDialog=new ProgressDialog(context);
+
     }
+
+    @Override
+    protected void onPreExecute() {
+        progressDialog.setMessage("Searching...please wait.");
+        progressDialog.show();
+    }
+
 
     // Spotify search request
     @Override
     protected ArrayList<TopTrack> doInBackground(String... Strings) {
         String artistID = Strings[0];
-        artistName = Strings[1];
-
-        SpotifyApi api = new SpotifyApi();
-        SpotifyService spotify = api.getService();
-        Map<String, Object> options = new HashMap<>();
-        options.put(SpotifyService.COUNTRY, Locale.getDefault().getCountry());
-        Tracks topTracks = spotify.getArtistTopTrack(artistID, options);
-
         resultList = new ArrayList<>();
-        for (int i = 0; i < topTracks.tracks.size() && i < 10; i++) {
-            TopTrack topTrack;
-            if (topTracks.tracks.get(i).album.images.isEmpty()) {
-                topTrack = new TopTrack(topTracks.tracks.get(i).name, topTracks.tracks.get(i).album.name, null);
-            } else {
-                topTrack = new TopTrack(topTracks.tracks.get(i).name, topTracks.tracks.get(i).album.name, topTracks.tracks.get(i).album.images.get(0).url);
+
+        try {
+            SpotifyApi api = new SpotifyApi();
+            SpotifyService spotify = api.getService();
+            Map<String, Object> options = new HashMap<>();
+            options.put(SpotifyService.COUNTRY, Locale.getDefault().getCountry());
+
+            Tracks topTracks = spotify.getArtistTopTrack(artistID, options);
+
+
+            for (int i = 0; i < topTracks.tracks.size() && i < 10; i++) {
+                TopTrack topTrack;
+                if (topTracks.tracks.get(i).album.images.isEmpty()) {
+                    topTrack = new TopTrack(topTracks.tracks.get(i).name, topTracks.tracks.get(i).album.name, null);
+                } else {
+                    topTrack = new TopTrack(topTracks.tracks.get(i).name, topTracks.tracks.get(i).album.name, topTracks.tracks.get(i).album.images.get(0).url);
+                }
+                resultList.add(topTrack);
             }
-            resultList.add(topTrack);
+        } catch (Exception e) {
+            Log.d("SpotifyConnectionError", e.getMessage());
         }
         return resultList;
+
     }
 
 
@@ -85,11 +101,14 @@ public class FindTopTracks extends AsyncTask<String, Void, ArrayList<TopTrack>> 
             listView.setAdapter(TopTracksAdapter);
 
         }
-        resultList2=results;
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+        resultList = results;
     }
 
     public ArrayList<TopTrack> TTList() {
-        return resultList2;
+        return resultList;
     }
 
 

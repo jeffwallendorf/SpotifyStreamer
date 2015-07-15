@@ -35,15 +35,14 @@ public class MainActivityFragment extends Fragment {
 
 
         final EditText editText = (EditText) rootView.findViewById(R.id.editTextArtistSearch);
+        findArtist = new FindArtist(getActivity(), rootView);
 
-        if (savedInstanceState == null || !savedInstanceState.containsKey("ArtistParcelable")) {
-            findArtist = new FindArtist(getActivity(), rootView);
+        if (savedInstanceState != null) {
 
-        }
-            else {
             resultList = savedInstanceState.getParcelableArrayList("ArtistParcelable");
-            findArtist.onPostExecute(resultList);}
 
+            findArtist.onPostExecute(resultList);
+        }
 
 
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -51,10 +50,8 @@ public class MainActivityFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String artistSearchQuery = editText.getText().toString();
-                    FindArtist findArtist = new FindArtist(getActivity(), rootView);
                     findArtist.setContext(v.getContext());
                     findArtist.execute(artistSearchQuery);
-                    resultList = findArtist.ArtistsList();
 
                 }
                 return false;
@@ -64,8 +61,10 @@ public class MainActivityFragment extends Fragment {
         return rootView;
     }
 
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
+        resultList = findArtist.ArtistsList();
 
         savedInstanceState.putParcelableArrayList("ArtistParcelable", resultList);
         super.onSaveInstanceState(savedInstanceState);

@@ -6,17 +6,20 @@ import android.os.Parcelable;
 public class ArtistInList implements Parcelable {
     String artistName;
     String imageURL;
+    String artistID;
 
     public ArtistInList(String artistName
-            , String imageURL
+            , String imageURL, String artistID
     ) {
         this.artistName = artistName;
         this.imageURL = imageURL;
+        this.artistID=artistID;
     }
 
     private ArtistInList(Parcel in) {
         this.artistName = in.readString();
         this.imageURL = in.readString();
+
     }
 
     @Override
