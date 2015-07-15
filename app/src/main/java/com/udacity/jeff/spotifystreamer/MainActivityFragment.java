@@ -40,8 +40,9 @@ public class MainActivityFragment extends Fragment {
         if (savedInstanceState != null) {
 
             resultList = savedInstanceState.getParcelableArrayList("ArtistParcelable");
-
-            findArtist.onPostExecute(resultList);
+System.out.println("CHECK: "+resultList);
+            if (resultList!=null){
+            findArtist.onPostExecute(resultList);}
         }
 
 
