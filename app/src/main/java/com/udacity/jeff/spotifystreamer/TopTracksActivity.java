@@ -7,15 +7,26 @@ import android.view.MenuItem;
 
 
 public class TopTracksActivity extends AppCompatActivity {
+    private boolean twoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_top_tracks);
+
+        if(findViewById(R.id.detail_container)!=null){
+            twoPane=true;
+            if(savedInstanceState==null){
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.detail_container, new TopTracksActivityFragment())
+                        .commit();
+            }
+        }
+        else{twoPane=false;}
 
         String artistName=getIntent().getStringExtra("artistName");
 
 // Set title, subtitle and activate 'back'-Button in ActionBar
-        setContentView(R.layout.activity_top_tracks);
         getSupportActionBar().setTitle("Top 10 Tracks");
         getSupportActionBar().setSubtitle(artistName);
         getSupportActionBar().setHomeButtonEnabled(true);

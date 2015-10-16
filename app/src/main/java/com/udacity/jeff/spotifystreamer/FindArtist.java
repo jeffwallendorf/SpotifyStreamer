@@ -1,9 +1,12 @@
 package com.udacity.jeff.spotifystreamer;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +26,7 @@ public class FindArtist extends AsyncTask<String, Void, ArrayList<ArtistInList>>
 
     private Context context;
     private View rootView;
+    private FragmentManager fm;
     private List<Artist> artists;
     private String artistName;
     private ArrayList<ArtistInList> resultList;
@@ -32,9 +36,10 @@ public class FindArtist extends AsyncTask<String, Void, ArrayList<ArtistInList>>
         this.context = context;
     }
 
-    public FindArtist(Context context, View rootView) {
+    public FindArtist(Context context, View rootView, FragmentManager fm) {
         this.context = context;
         this.rootView = rootView;
+        this.fm=fm;
         progressDialog=new ProgressDialog(context);
     }
 
@@ -95,8 +100,15 @@ public class FindArtist extends AsyncTask<String, Void, ArrayList<ArtistInList>>
                     Intent artistInfo = new Intent(context, TopTracksActivity.class);
                     artistInfo.putExtra("artistID", results.get(position).artistID);
                     artistInfo.putExtra("artistName", results.get(position).artistName);
-                    context.startActivity(artistInfo);
-                }
+
+
+                       //     fm.beginTransaction()
+                         //   .replace(R.id.detail_container, new TopTracksActivityFragment())
+                           // .commit();
+
+                        context.startActivity(artistInfo);
+                    }
+
             });
         }
 

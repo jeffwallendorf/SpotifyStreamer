@@ -1,5 +1,7 @@
 package com.udacity.jeff.spotifystreamer;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
@@ -22,7 +24,7 @@ public class MainActivityFragment extends Fragment {
 
     private ArrayList<ArtistInList> resultList;
     private FindArtist findArtist;
-
+private android.support.v4.app.FragmentManager fm;
 
     public MainActivityFragment() {
     }
@@ -31,16 +33,18 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
+
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
+        fm=getFragmentManager();
 
         final EditText editText = (EditText) rootView.findViewById(R.id.editTextArtistSearch);
-        findArtist = new FindArtist(getActivity(), rootView);
+        findArtist = new FindArtist(getActivity(), rootView,fm);
 
         if (savedInstanceState != null) {
 
             resultList = savedInstanceState.getParcelableArrayList("ArtistParcelable");
-System.out.println("CHECK: "+resultList);
             if (resultList!=null){
             findArtist.onPostExecute(resultList);}
         }
@@ -51,7 +55,7 @@ System.out.println("CHECK: "+resultList);
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String artistSearchQuery = editText.getText().toString();
-                    findArtist = new FindArtist(getActivity(), rootView);
+                    findArtist = new FindArtist(getActivity(), rootView,fm);
                     findArtist.setContext(v.getContext());
                     findArtist.execute(artistSearchQuery);
 
@@ -61,6 +65,10 @@ System.out.println("CHECK: "+resultList);
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroy(){
     }
 
 

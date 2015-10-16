@@ -20,17 +20,34 @@ import kaaes.spotify.webapi.android.models.ArtistsPager;
 
 public class MainActivity extends ActionBarActivity {
 
+    private boolean twoPane;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        System.out.println("Screen width: "+getWindowManager().getDefaultDisplay().getWidth());
+
+        if(findViewById(R.id.detail_container)!=null){
+            twoPane=true;
+            if(savedInstanceState==null){
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.detail_container, new TopTracksActivityFragment())
+                        .commit();
+            }
+        }
+        else{twoPane=false;}
+        System.out.println("twoPane? "+twoPane);
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
 
     }
 
-
+public boolean isTwoPane(){
+    return twoPane;
+}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
