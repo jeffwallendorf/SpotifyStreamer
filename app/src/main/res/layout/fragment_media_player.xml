@@ -1,22 +1,23 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff"
     tools:context="com.udacity.jeff.spotifystreamer.MediaPlayerFragment">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="8">
+
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+
 android:layout_alignParentTop="true"
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Artist Name"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:gravity="center"
             android:id="@+id/textView_Player_ArtistName"
             android:layout_gravity="center_horizontal" />
@@ -24,30 +25,25 @@ android:layout_alignParentTop="true"
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Album Name"
             android:gravity="center"
             android:id="@+id/textView_Player_AlbumName"
             android:layout_gravity="center_horizontal" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:weightSum="10">
+
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_weight="6"
                 android:layout_height="0dp"
+                android:layout_weight="6"
                 android:id="@+id/imageView_Player_Cover"
-                android:layout_gravity="center_horizontal"
-                />
-        </LinearLayout>
+                android:layout_gravity="center_horizontal" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Track Name"
             android:id="@+id/textView_Player_TrackName"
             android:layout_gravity="center_horizontal" />
@@ -57,6 +53,7 @@ android:layout_alignParentTop="true"
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+
         android:layout_alignParentBottom="true"
         android:id="@+id/Media_Player_Controls"
         android:orientation="horizontal"
@@ -137,6 +134,5 @@ android:layout_alignParentTop="true"
                     android:layout_gravity="center_horizontal" />
             </RelativeLayout>
         </LinearLayout>
-    </RelativeLayout>
 
-</FrameLayout>
+</LinearLayout>

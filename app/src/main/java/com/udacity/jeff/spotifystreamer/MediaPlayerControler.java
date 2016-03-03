@@ -23,82 +23,79 @@ import kaaes.spotify.webapi.android.SpotifyService;
  */
 public class MediaPlayerControler extends Service implements MediaPlayer.OnPreparedListener {
 
-    MediaPlayer mediaPlayer=new MediaPlayer();
-    private ProgressDialog progressDialog;
-    Boolean isPaused=false;
+    MediaPlayer mediaPlayer = new MediaPlayer();
+    Boolean isPaused = false;
     int progressOnLaunch;
 
-    private final IBinder MPbinder=new LocalBinder();
+    private final IBinder MPbinder = new LocalBinder();
 
     @Override
-      public IBinder onBind(Intent intent) {
+    public IBinder onBind(Intent intent) {
         return MPbinder;
     }
 
     @Override
-    public boolean onUnbind(Intent intent){
+    public boolean onUnbind(Intent intent) {
         return false;
     }
 
     public class LocalBinder extends Binder {
         public MediaPlayerControler getServerInstance() {
-            System.out.println("MPlayer called");
             return MediaPlayerControler.this;
         }
     }
 
-    public void playSong(String trackID, int startFrom, boolean pause){
-progressOnLaunch=startFrom*100;
+    public void playSong(String trackID, int startFrom, boolean pause) {
+        progressOnLaunch = startFrom * 100;
         mediaPlayer.reset();
-                   try {
-                SpotifyApi api = new SpotifyApi();
-                SpotifyService spotify = api.getService();
+        try {
+            SpotifyApi api = new SpotifyApi();
+            SpotifyService spotify = api.getService();
 
-                String previewURL = spotify.getTrack(trackID).preview_url;
+            String previewURL = spotify.getTrack(trackID).preview_url;
 
-                       mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                           @Override
-                           public void onCompletion(MediaPlayer mp) {
-                               onSongFinished();
-                           }
-                       });
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    onSongFinished();
+                }
+            });
 
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                mediaPlayer.setDataSource(previewURL);
-                mediaPlayer.setOnPreparedListener(this);
-                mediaPlayer.prepareAsync();
-                       isPaused=pause;
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mediaPlayer.setDataSource(previewURL);
+            mediaPlayer.setOnPreparedListener(this);
+            mediaPlayer.prepareAsync();
+            isPaused = pause;
 
-            } catch (Exception e) {
-                Log.d("SpotifyConnectionError", e.getMessage());
-
-            }
+        } catch (Exception e) {
+            Log.d("SpotifyConnectionError", e.getMessage());
+        }
 
     }
 
-    public void pauseSong(){
+    public void pauseSong() {
         mediaPlayer.pause();
-        isPaused=true;
+        isPaused = true;
     }
 
-    public void resumeSong(){
+    public void resumeSong() {
         mediaPlayer.start();
-        isPaused=false;
+        isPaused = false;
     }
 
-    public void jumpTo(int sec){
-        mediaPlayer.seekTo(sec*1000);
+    public void jumpTo(int sec) {
+        mediaPlayer.seekTo(sec * 1000);
     }
 
-    public void onSongFinished(){
+    public void onSongFinished() {
         Intent intent = new Intent("songFinished");
-        intent.putExtra("MusicPlaying",false);
+        intent.putExtra("MusicPlaying", false);
         mediaPlayer.seekTo(0);
-LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
-    public int getProgress(){
-        return mediaPlayer.getCurrentPosition()/100;
+    public int getProgress() {
+        return mediaPlayer.getCurrentPosition() / 100;
     }
 
     @Override
@@ -106,15 +103,12 @@ LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 //        mediaPlayer.stop();
     }
 
-    public void onPrepared(MediaPlayer mp){
+    public void onPrepared(MediaPlayer mp) {
         mediaPlayer.seekTo(progressOnLaunch);
-        System.out.println("progress on launch: "+progressOnLaunch+" "+getProgress());
-    if(!isPaused){mp.start();}
-
-//        if(progressDialog.isShowing()){
-//            progressDialog.dismiss();
-//        }
+        System.out.println("progress on launch: " + progressOnLaunch + " " + getProgress());
+        if (!isPaused) {
+            mp.start();
+        }
     }
-
 
 }

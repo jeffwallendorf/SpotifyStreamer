@@ -13,13 +13,12 @@ public class ArtistInList implements Parcelable {
     ) {
         this.artistName = artistName;
         this.imageURL = imageURL;
-        this.artistID=artistID;
+        this.artistID = artistID;
     }
 
     private ArtistInList(Parcel in) {
         this.artistName = in.readString();
         this.imageURL = in.readString();
-
     }
 
     @Override

@@ -7,25 +7,15 @@ import android.view.MenuItem;
 
 
 public class TopTracksActivity extends AppCompatActivity {
-    private boolean twoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_top_tracks);
 
-        if(findViewById(R.id.detail_container)!=null){
-            twoPane=true;
-            if(savedInstanceState==null){
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.detail_container, new TopTracksActivityFragment())
-                        .commit();
-            }
-        }
-        else{twoPane=false;}
 
-        String artistName=getIntent().getStringExtra("artistName");
-
+        String artistName = getIntent().getStringExtra("artistName");
 // Set title, subtitle and activate 'back'-Button in ActionBar
         getSupportActionBar().setTitle("Top 10 Tracks");
         getSupportActionBar().setSubtitle(artistName);
@@ -42,19 +32,16 @@ public class TopTracksActivity extends AppCompatActivity {
     }
 
 
-
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-if(id==android.R.id.home) {
-    onBackPressed();
-    return true;
-}
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;

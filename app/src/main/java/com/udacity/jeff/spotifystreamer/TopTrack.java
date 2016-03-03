@@ -16,12 +16,12 @@ public class TopTrack implements Parcelable {
     public TopTrack(String track
             , String album
             , String imageURL
-                    , String trackID
+            , String trackID
     ) {
         this.track = track;
         this.album = album;
         this.imageURL = imageURL;
-        this.trackID=trackID;
+        this.trackID = trackID;
     }
 
     private TopTrack(Parcel in) {

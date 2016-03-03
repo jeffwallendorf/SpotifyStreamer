@@ -1,11 +1,11 @@
 package com.udacity.jeff.spotifystreamer;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
@@ -27,10 +27,10 @@ public class FindArtist extends AsyncTask<String, Void, ArrayList<ArtistInList>>
     private Context context;
     private View rootView;
     private FragmentManager fm;
-    private List<Artist> artists;
     private String artistName;
     private ArrayList<ArtistInList> resultList;
     private ProgressDialog progressDialog;
+    private boolean twoPane;
 
     public void setContext(Context context) {
         this.context = context;
@@ -39,8 +39,8 @@ public class FindArtist extends AsyncTask<String, Void, ArrayList<ArtistInList>>
     public FindArtist(Context context, View rootView, FragmentManager fm) {
         this.context = context;
         this.rootView = rootView;
-        this.fm=fm;
-        progressDialog=new ProgressDialog(context);
+        this.fm = fm;
+        progressDialog = new ProgressDialog(context);
     }
 
     @Override
@@ -56,15 +56,13 @@ public class FindArtist extends AsyncTask<String, Void, ArrayList<ArtistInList>>
         resultList = new ArrayList<>();
 
         if (artistName.isEmpty()) {
-
             artistName = " ";
-
         }
         try {
             SpotifyApi api = new SpotifyApi();
             SpotifyService spotify = api.getService();
             ArtistsPager results = spotify.searchArtists(artistName);
-            artists = results.artists.items;
+            List<Artist> artists = results.artists.items;
 
 
             for (int i = 0; i < artists.size(); i++) {
@@ -100,15 +98,20 @@ public class FindArtist extends AsyncTask<String, Void, ArrayList<ArtistInList>>
                     Intent artistInfo = new Intent(context, TopTracksActivity.class);
                     artistInfo.putExtra("artistID", results.get(position).artistID);
                     artistInfo.putExtra("artistName", results.get(position).artistName);
-
-
-                       //     fm.beginTransaction()
-                         //   .replace(R.id.detail_container, new TopTracksActivityFragment())
-                           // .commit();
-
+                    twoPane = MainActivity.isTwoPane();
+                    if (twoPane) {
+                        Bundle artistInfoBundle = new Bundle();
+                        artistInfoBundle.putString("artistID", results.get(position).artistID);
+                        artistInfoBundle.putString("artistName", results.get(position).artistName);
+                        Fragment fragment = new TopTracksActivityFragment();
+                        fragment.setArguments(artistInfoBundle);
+                        fm.beginTransaction()
+                                .replace(R.id.detail_container, fragment)
+                                .commit();
+                    } else {
                         context.startActivity(artistInfo);
                     }
-
+                }
             });
         }
 

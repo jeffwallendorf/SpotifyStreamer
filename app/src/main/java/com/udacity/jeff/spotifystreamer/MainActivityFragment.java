@@ -1,9 +1,9 @@
 package com.udacity.jeff.spotifystreamer;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +24,7 @@ public class MainActivityFragment extends Fragment {
 
     private ArrayList<ArtistInList> resultList;
     private FindArtist findArtist;
-private android.support.v4.app.FragmentManager fm;
+    private android.support.v4.app.FragmentManager fm;
 
     public MainActivityFragment() {
     }
@@ -33,20 +33,17 @@ private android.support.v4.app.FragmentManager fm;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-        fm=getFragmentManager();
-
+        fm = getFragmentManager();
         final EditText editText = (EditText) rootView.findViewById(R.id.editTextArtistSearch);
-        findArtist = new FindArtist(getActivity(), rootView,fm);
+        findArtist = new FindArtist(getActivity(), rootView, fm);
 
         if (savedInstanceState != null) {
 
             resultList = savedInstanceState.getParcelableArrayList("ArtistParcelable");
-            if (resultList!=null){
-            findArtist.onPostExecute(resultList);}
+            if (resultList != null) {
+                findArtist.onPostExecute(resultList);
+            }
         }
 
 
@@ -55,7 +52,7 @@ private android.support.v4.app.FragmentManager fm;
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String artistSearchQuery = editText.getText().toString();
-                    findArtist = new FindArtist(getActivity(), rootView,fm);
+                    findArtist = new FindArtist(getActivity(), rootView, fm);
                     findArtist.setContext(v.getContext());
                     findArtist.execute(artistSearchQuery);
 
@@ -67,8 +64,13 @@ private android.support.v4.app.FragmentManager fm;
         return rootView;
     }
 
+    public FragmentManager mainActivityFragmentManager() {
+        return getFragmentManager();
+    }
+
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
+        super.onDestroy();
     }
 
 
